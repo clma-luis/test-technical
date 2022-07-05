@@ -1,0 +1,74 @@
+.container__body{
+    display: flex;
+    width: 100%;
+    height: auto;
+    padding-top: 2rem;
+
+    .container__body__cards{
+        
+        width: 80%;
+
+        .card{
+            width: 16rem;
+
+                .cardBody{
+                padding: 0px;
+
+
+                .cardBody-title{
+                    padding: 1rem 1rem 0rem 1rem ;
+                }
+
+                .cardBody-text{
+                    padding: 1rem 1rem 0rem 1rem ;
+                }
+
+                .container__body__cards__button-box{
+                width: 100%;
+                padding: 0.5rem 0 0.5rem 0.5rem;
+                background-color: #F8F8F8;
+
+
+                        .edit_button{
+                            text-decoration: none;
+                        }
+                        .delete_button{
+                            text-decoration: none;
+                        }
+                    }
+                }
+         
+
+       
+            }
+
+       
+
+       
+        }
+
+    .container__body__form{
+        width: 30%;
+    }
+
+    .container__body__form{
+        
+        
+        border: 1px solid #E3E3E3;
+        border-radius: 5px;
+
+        .form_inputs{
+            padding: 1.2rem;
+        }
+
+        .button_box{
+            background-color: #F8F8F8;
+            width: 100%;
+            padding: 1rem 0 1rem 1.2rem;
+
+            .button-success{
+                margin-right: 8px;
+            }
+        }
+    }
+}
