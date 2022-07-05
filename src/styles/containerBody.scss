@@ -3,13 +3,19 @@
     width: 100%;
     height: auto;
     padding-top: 2rem;
+    padding-bottom: 2rem;
 
     .container__body__cards{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 1em;
+        row-gap: 1em;
         
         width: 80%;
 
         .card{
             width: 16rem;
+            
 
                 .cardBody{
                 padding: 0px;
@@ -20,10 +26,12 @@
                 }
 
                 .cardBody-text{
+             
                     padding: 1rem 1rem 0rem 1rem ;
                 }
 
                 .container__body__cards__button-box{
+                   
                 width: 100%;
                 padding: 0.5rem 0 0.5rem 0.5rem;
                 background-color: #F8F8F8;
@@ -52,6 +60,8 @@
     }
 
     .container__body__form{
+
+        .form{
         
         
         border: 1px solid #E3E3E3;
@@ -59,6 +69,8 @@
 
         .form_inputs{
             padding: 1.2rem;
+
+            
         }
 
         .button_box{
@@ -70,5 +82,6 @@
                 margin-right: 8px;
             }
         }
+    }
     }
 }
