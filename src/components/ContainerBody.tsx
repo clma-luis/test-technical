@@ -4,70 +4,88 @@ import { useForm } from "react-hook-form";
 import "../styles/containerBody.scss";
 import { v4 as uuid } from "uuid";
 
-export interface listOfCardsType {
-  id: string;
-  name: string;
-  description: string;
-}
-
-export interface EditCardType {
+export interface ListOfCardsType {
   id: string;
   name: string;
   description: string;
 }
 
 export interface ContainerBodyProps {
-  listOfCards: listOfCardsType[];
-  setListOfCards: Dispatch<Array<listOfCardsType>>;
+  listOfCards: ListOfCardsType[];
+  setListOfCards: Dispatch<Array<ListOfCardsType>>;
+  filterByCategory: number | null;
 }
 
 export const ContainerBody = (props: ContainerBodyProps) => {
-  const [editCard, setEditCard] = useState<EditCardType | null>({
+  const initialState: ListOfCardsType = {
     id: "",
     name: "",
     description: "",
-  });
+  };
+
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const truncate = (str: string, n: number) => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };
 
-  console.log("editCard", editCard);
+  const { register, handleSubmit, reset, setValue } = useForm({
+    mode: "onTouched",
+    reValidateMode: "onSubmit",
+    defaultValues: initialState,
+  });
 
-  const { register, handleSubmit, reset } = useForm();
+  const clearForm = () => {
+    reset(initialState, {
+      keepErrors: true,
+      keepDirty: true,
+      keepIsSubmitted: false,
+      keepTouched: false,
+      keepIsValid: false,
+      keepSubmitCount: false,
+    });
 
-  const onSubmit = (data: any) => {
-    let res = {
-      id: editCard ? editCard?.id : uuid(),
+    setIsEdit(false);
+  };
+
+  const onSubmit = (data: ListOfCardsType): void => {
+    if (!isEdit) {
+      createCard(data);
+    } else {
+      editCard(data);
+    }
+
+    clearForm();
+  };
+
+  const createCard = (data: ListOfCardsType): void => {
+    const newCard = {
+      id: uuid(),
+      name: data.name,
+      description: data.description,
+    };
+    props.setListOfCards([...props.listOfCards, newCard]);
+  };
+
+  const editCard = (data: ListOfCardsType): void => {
+    const card = {
+      id: data.id,
       name: data.name,
       description: data.description,
     };
 
-    let reviewingListOfCards = props.listOfCards.filter(
-      (a) => a.id !== editCard?.id
-    );
-
-    setTimeout(() => {
-      props.setListOfCards([...reviewingListOfCards, res]);
-    }, 100);
-
-    setTimeout(() => {
-      reset({
-        name: "",
-        description: "",
-      });
-      setEditCard(null);
-    }, 150);
+    const cardIndex = props.listOfCards.findIndex((el) => el.id === data.id);
+    let newLisOfCards = [...props.listOfCards];
+    newLisOfCards[cardIndex] = card;
+    props.setListOfCards(newLisOfCards);
   };
 
-  const handleEdit = (id: string, name: string, description: string) => {
-    console.log("prueba", id);
-
-    setEditCard({
-      id: id,
-      name: name,
-      description: description,
-    });
+  const handleEdit = (element: ListOfCardsType) => {
+    console.log("element", element);
+    setIsEdit(true);
+    setValue("id", element.id);
+    setValue("name", element.name);
+    setValue("description", element.description);
   };
 
   const handleRemove = (id: string) => {
@@ -79,57 +97,59 @@ export const ContainerBody = (props: ContainerBodyProps) => {
   return (
     <div className="container__body">
       <div className="container__body__cards">
-        {props?.listOfCards.map((item) => (
-          <Card className="card" key={item?.id}>
-            <Card.Body className="cardBody">
-              <Card.Title className="cardBody-title">
-                {truncate(item?.name, 18)}
-              </Card.Title>
-              <Card.Text className="cardBody-text">
-                {truncate(item?.description, 90)}
-              </Card.Text>
-              <div className="container__body__cards__button-box">
-                <Button
-                  className="edit_button"
-                  variant="link"
-                  onClick={() => {
-                    handleEdit(item?.id, item?.name, item?.description);
-                  }}
-                >
-                  Editar
-                </Button>
-                <Button
-                  className="delete_button"
-                  variant="link"
-                  onClick={() => {
-                    handleRemove(item?.id);
-                  }}
-                >
-                  Eliminar
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        ))}
+        {props?.listOfCards
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((item, i) => (
+            <Card className="card" key={i}>
+              <Card.Body className="cardBody">
+                <Card.Title className="cardBody-title">
+                  {truncate(item?.name, 18)}
+                </Card.Title>
+                <Card.Text className="cardBody-text">
+                  {truncate(item?.description, 90)}
+                </Card.Text>
+                <div className="container__body__cards__button-box">
+                  <Button
+                    className="edit_button"
+                    variant="link"
+                    onClick={() => {
+                      handleEdit(item);
+                    }}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    className="delete_button"
+                    variant="link"
+                    onClick={() => {
+                      handleRemove(item?.id);
+                    }}
+                  >
+                    Eliminar
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          ))}
       </div>
 
       <div className="container__body__form">
         <Form className="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="form_inputs">
-            <Card.Title>Servicio</Card.Title>
+            <Card.Title>{isEdit ? "Editar" : "Crear"} Servicio</Card.Title>
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
-                {...register("name")}
-                defaultValue={editCard?.id && editCard?.name}
+                {...register("name", { required: "Descripción requerida" })}
               />
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Descripción</Form.Label>
               <Form.Control
-                {...register("description")}
-                defaultValue={editCard?.id && editCard?.description}
+                {...register("description", {
+                  required: "Descripción requerida",
+                })}
               />
             </Form.Group>
           </div>
@@ -142,25 +162,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
             >
               Grabar
             </Button>
-            <Button
-              variant="outline-danger"
-              onClick={() => {
-                reset(
-                  {
-                    name: "",
-                    description: "",
-                  },
-                  {
-                    keepErrors: true,
-                    keepDirty: true,
-                    keepIsSubmitted: false,
-                    keepTouched: false,
-                    keepIsValid: false,
-                    keepSubmitCount: false,
-                  }
-                );
-              }}
-            >
+            <Button variant="outline-danger" onClick={clearForm}>
               Cancelar
             </Button>
           </div>
