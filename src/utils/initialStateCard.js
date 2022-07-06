@@ -41,4 +41,88 @@ export const initialStateCard = [
       "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
     category: "Hogar",
   },
+  {
+    id: "k73gice-1392-4a18-8a3d-beuc2f145b68",
+    name: "Terapia ocupacional",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Salud",
+  },
+  {
+    id: "tf73dgice-1392-4g18-8e3d-beuc2v45bsf",
+    name: "Terapia de lenguaje",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Salud",
+  },
+  {
+    id: "tf73drytce-1392-4g18-8e3d-beuyuyv45bsf",
+    name: "Pintor de auto",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Autos",
+  },
+  {
+    id: "1f73drytce-1392-2218-8e3d-be59yv45bs7",
+    name: "Electrónica AudioCar",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Autos",
+  },
+  {
+    id: "ddjhf73drytce-1392-2218-8e3d-be59yv4",
+    name: "LLantería",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Autos",
+  },
+  {
+    id: "d546dfjhf73drytce-1392-2218-8e3d-be59yv45reg7",
+    name: "Tuning Car",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Autos",
+  },
+  {
+    id: "5f73drytce-1392-2218-8e3d-blj9yd45b9",
+    name: "Personal de limpieza",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Hogar",
+  },
+  {
+    id: "03f3drytce-1392-2218-8e3d-bljasdfd45tr",
+    name: "Jardinero",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Hogar",
+  },
+  {
+    id: "156f3drytce-1392-2218-8e3d-bljasdfd45tr",
+    name: "Cocinero del Hogar",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Hogar",
+  },
+  {
+    id: "187asd3drytce-1392-2218-8e3d-bljasdfd",
+    name: "Albañil",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Hogar",
+  },
+  {
+    id: "783dgice-1392-4g18-8e3d-be65v45bsf",
+    name: "Odontología",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Salud",
+  },
+  {
+    id: "7werfr654gice-1392-4g18-8e3d-be4df5bsf",
+    name: "Podología",
+    description:
+      "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard ",
+    category: "Salud",
+  },
 ];

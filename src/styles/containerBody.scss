@@ -70,6 +70,19 @@
         .form_inputs{
             padding: 1.2rem;
 
+            .required{
+                padding-top: 0.5rem;
+                font-size: 0.8rem;
+                color: red
+            }
+
+            .warning{
+                padding-top: 0.5rem;
+                font-size: 0.8rem;
+                color: rgb(114, 116, 15);
+                
+            }
+
             
         }
 

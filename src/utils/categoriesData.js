@@ -1,1 +1,0 @@
-export const Home = ["casa", "muebles", "gasfitero", "baño", "jardín", "cocina", "muebles", "sillas", "electricidad", "decoración para el hogar"]

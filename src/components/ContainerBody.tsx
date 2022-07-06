@@ -25,21 +25,27 @@ export const ContainerBody = (props: ContainerBodyProps) => {
     category: "",
   };
 
-  const categories = ["Autos", "Salud", "Hogar"];
+  const categories: string[] = ["Autos", "Salud", "Hogar"];
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const truncate = (str: string, n: number) => {
+  const truncate = (str: string, n: number): string => {
     return str?.length > n ? str.substring(0, n - 1) + "..." : str;
   };
 
-  const { register, handleSubmit, reset, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
     mode: "onTouched",
     reValidateMode: "onSubmit",
     defaultValues: initialState,
   });
 
-  const clearForm = () => {
+  const clearForm = (): void => {
     reset(initialState, {
       keepErrors: true,
       keepDirty: true,
@@ -73,7 +79,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
   };
 
   const editCard = (data: ListOfCardsType): void => {
-    const card = {
+    const card: ListOfCardsType = {
       id: data.id,
       name: data.name,
       description: data.description,
@@ -81,12 +87,12 @@ export const ContainerBody = (props: ContainerBodyProps) => {
     };
 
     const cardIndex = props.listOfCards.findIndex((el) => el.id === data.id);
-    let newLisOfCards = [...props.listOfCards];
+    let newLisOfCards: ListOfCardsType[] = [...props.listOfCards];
     newLisOfCards[cardIndex] = card;
     props.setListOfCards(newLisOfCards);
   };
 
-  const handleEdit = (element: ListOfCardsType) => {
+  const handleEdit = (element: ListOfCardsType): void => {
     setIsEdit(true);
     setValue("id", element.id);
     setValue("name", element.name);
@@ -94,9 +100,10 @@ export const ContainerBody = (props: ContainerBodyProps) => {
     setValue("category", element.category);
   };
 
-  const handleRemove = (id: string) => {
-    let result = props.listOfCards.filter((a) => a.id !== id);
-
+  const handleRemove = (id: string): void => {
+    let result: ListOfCardsType[] = props.listOfCards.filter(
+      (a) => a.id !== id
+    );
     props.setListOfCards([...result]);
   };
 
@@ -112,7 +119,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
             <Card className="card" key={i}>
               <Card.Body className="cardBody">
                 <Card.Title className="cardBody-title">
-                  {truncate(item?.name, 18)}
+                  {truncate(item?.name, 25)}
                 </Card.Title>
                 <Card.Text className="cardBody-text">
                   {truncate(item?.description, 90)}
@@ -149,8 +156,21 @@ export const ContainerBody = (props: ContainerBodyProps) => {
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
-                {...register("name", { required: true, minLength: 5 })}
+                {...register("name", {
+                  required: "Nombre requerido*",
+                  minLength: 5,
+                })}
               />
+              {errors.name ? (
+                <>
+                  {errors.name.type === "required" && (
+                    <p className="required">El nombre es requerido*</p>
+                  )}
+                  {errors.name.type === "minLength" && (
+                    <p className="warning">Mínimo requerido: 5 letras*</p>
+                  )}
+                </>
+              ) : null}
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -159,17 +179,27 @@ export const ContainerBody = (props: ContainerBodyProps) => {
                 as="textarea"
                 rows={2}
                 {...register("description", {
-                  required: true,
+                  required: "Descripción requerida*",
                   minLength: 10,
                 })}
               />
+              {errors.description ? (
+                <>
+                  {errors.description.type === "required" && (
+                    <p className="required">La Descripción es requerida*</p>
+                  )}
+                  {errors.description.type === "minLength" && (
+                    <p className="warning">Mínimo requerido: 10 letras*</p>
+                  )}
+                </>
+              ) : null}
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Categoría</Form.Label>
               <Form.Select
                 {...register("category", {
-                  required: "Categoría requerida",
+                  required: "Categoría requerida*",
                 })}
                 aria-label="Default select example"
               >
@@ -178,6 +208,13 @@ export const ContainerBody = (props: ContainerBodyProps) => {
                   <option>{item}</option>
                 ))}
               </Form.Select>
+              {errors.category ? (
+                <>
+                  {errors.category.type === "required" && (
+                    <p className="required">La Categoría es requerida*</p>
+                  )}
+                </>
+              ) : null}
             </Form.Group>
           </div>
 
