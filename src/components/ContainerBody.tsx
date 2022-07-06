@@ -8,12 +8,13 @@ export interface ListOfCardsType {
   id: string;
   name: string;
   description: string;
+  category: string;
 }
 
 export interface ContainerBodyProps {
   listOfCards: ListOfCardsType[];
   setListOfCards: Dispatch<Array<ListOfCardsType>>;
-  filterByCategory: number | null;
+  category: string;
 }
 
 export const ContainerBody = (props: ContainerBodyProps) => {
@@ -21,7 +22,10 @@ export const ContainerBody = (props: ContainerBodyProps) => {
     id: "",
     name: "",
     description: "",
+    category: "",
   };
+
+  const categories = ["Autos", "Salud", "Hogar"];
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
@@ -63,6 +67,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
       id: uuid(),
       name: data.name,
       description: data.description,
+      category: data.category,
     };
     props.setListOfCards([...props.listOfCards, newCard]);
   };
@@ -72,6 +77,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
       id: data.id,
       name: data.name,
       description: data.description,
+      category: data.category,
     };
 
     const cardIndex = props.listOfCards.findIndex((el) => el.id === data.id);
@@ -81,11 +87,11 @@ export const ContainerBody = (props: ContainerBodyProps) => {
   };
 
   const handleEdit = (element: ListOfCardsType) => {
-    console.log("element", element);
     setIsEdit(true);
     setValue("id", element.id);
     setValue("name", element.name);
     setValue("description", element.description);
+    setValue("category", element.category);
   };
 
   const handleRemove = (id: string) => {
@@ -98,6 +104,9 @@ export const ContainerBody = (props: ContainerBodyProps) => {
     <div className="container__body">
       <div className="container__body__cards">
         {props?.listOfCards
+          .filter((item) => {
+            return item.category.includes(props.category);
+          })
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((item, i) => (
             <Card className="card" key={i}>
@@ -108,7 +117,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
                 <Card.Text className="cardBody-text">
                   {truncate(item?.description, 90)}
                 </Card.Text>
-                <div className="container__body__cards__button-box">
+                <Card.Footer className="container__body__cards__button-box">
                   <Button
                     className="edit_button"
                     variant="link"
@@ -127,7 +136,7 @@ export const ContainerBody = (props: ContainerBodyProps) => {
                   >
                     Eliminar
                   </Button>
-                </div>
+                </Card.Footer>
               </Card.Body>
             </Card>
           ))}
@@ -140,17 +149,35 @@ export const ContainerBody = (props: ContainerBodyProps) => {
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
-                {...register("name", { required: "Descripción requerida" })}
+                {...register("name", { required: true, minLength: 5 })}
               />
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Descripción</Form.Label>
               <Form.Control
+                as="textarea"
+                rows={2}
                 {...register("description", {
-                  required: "Descripción requerida",
+                  required: true,
+                  minLength: 10,
                 })}
               />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Categoría</Form.Label>
+              <Form.Select
+                {...register("category", {
+                  required: "Categoría requerida",
+                })}
+                aria-label="Default select example"
+              >
+                <option></option>
+                {categories.map((item) => (
+                  <option>{item}</option>
+                ))}
+              </Form.Select>
             </Form.Group>
           </div>
 

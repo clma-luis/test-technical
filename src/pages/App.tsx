@@ -8,17 +8,18 @@ import { initialStateCard } from "../utils/initialStateCard";
 function App() {
   const [listOfCards, setListOfCards] =
     useState<Array<ListOfCardsType>>(initialStateCard);
-  const [filterByCategory, setfilterByCategory] = useState<number | null>(null);
+
+  const [category, setCategory] = useState<string>("");
 
   return (
     <Container>
       <div className="App">
         <h1 className="title">Servicios</h1>
-        <NavbarMenu setfilterByCategory={setfilterByCategory} />
+        <NavbarMenu setCategory={setCategory} />
         <ContainerBody
           listOfCards={listOfCards}
           setListOfCards={setListOfCards}
-          filterByCategory={filterByCategory}
+          category={category}
         />
       </div>
     </Container>

@@ -3,7 +3,7 @@ import { Nav, Navbar } from "react-bootstrap";
 import "../styles/navbarMenu.scss";
 
 export interface NavbarMenuProp {
-  setfilterByCategory: Dispatch<number>;
+  setCategory: Dispatch<string>;
 }
 
 export const NavbarMenu = (props: NavbarMenuProp) => {
@@ -15,17 +15,31 @@ export const NavbarMenu = (props: NavbarMenuProp) => {
           <Nav.Link
             href="#all"
             onClick={() => {
-              props.setfilterByCategory(0);
+              props.setCategory("");
             }}
           >
             Todos
           </Nav.Link>
-          <Nav.Link href="#auto">Autos</Nav.Link>
-          <Nav.Link href="#health">Salud</Nav.Link>
+          <Nav.Link
+            href="#auto"
+            onClick={() => {
+              props.setCategory("Autos");
+            }}
+          >
+            Autos
+          </Nav.Link>
+          <Nav.Link
+            href="#health"
+            onClick={() => {
+              props.setCategory("Salud");
+            }}
+          >
+            Salud
+          </Nav.Link>
           <Nav.Link
             href="#home"
             onClick={() => {
-              props.setfilterByCategory(3);
+              props.setCategory("Hogar");
             }}
           >
             Hogar
